@@ -1,6 +1,7 @@
 /*
 * Assignment 2: HashMap template implementation (STARTER CODE)
 *      TODO: write a comment here.
+*      Write write write
 */
 
 #include "hashmap.h"
@@ -21,22 +22,22 @@ HashMap<K, M, H>::~HashMap() {
 }
 
 template <typename K, typename M, typename H>
-inline size_t HashMap<K, M, H>::size() {
+inline size_t HashMap<K, M, H>::size() const {
     return _size;
 }
 
 template <typename K, typename M, typename H>
-inline bool HashMap<K, M, H>::empty() {
+inline bool HashMap<K, M, H>::empty() const {
     return size() == 0;
 }
 
 template <typename K, typename M, typename H>
-inline float HashMap<K, M, H>::load_factor() {
+inline float HashMap<K, M, H>::load_factor() const {
     return static_cast<float>(size())/bucket_count();
 };
 
 template <typename K, typename M, typename H>
-inline size_t HashMap<K, M, H>::bucket_count() const{
+inline size_t HashMap<K, M, H>::bucket_count() const {
     return _buckets_array.size();
 };
 
@@ -50,7 +51,12 @@ M& HashMap<K, M, H>::at(const K& key) {
 }
 
 template <typename K, typename M, typename H>
-bool HashMap<K, M, H>::contains(const K& key) {
+const M& HashMap<K, M, H>::at(const K& key) const {
+    return static_cast<const M&>(const_cast<HashMap<K, M, H>*>(this)->at(key));
+}
+
+template <typename K, typename M, typename H>
+bool HashMap<K, M, H>::contains(const K& key) const {
     return find_node(key).second != nullptr;
 }
 
@@ -67,6 +73,11 @@ void HashMap<K, M, H>::clear() {
 template <typename K, typename M, typename H>
 typename HashMap<K, M, H>::iterator HashMap<K, M, H>::find(const K& key) {
     return make_iterator(find_node(key).second);
+}
+
+template <typename K, typename M, typename H>
+typename HashMap<K, M, H>::const_iterator HashMap<K, M, H>::find(const K& key) const {
+    return static_cast<const_iterator>(const_cast<HashMap<K, M, H>*>(this)->find(key));
 }
 
 template <typename K, typename M, typename H>
@@ -103,7 +114,7 @@ typename HashMap<K, M, H>::node_pair HashMap<K, M, H>::find_node(const K& key) c
 }
 
 template <typename K, typename M, typename H>
-typename HashMap<K, M, H>::iterator HashMap<K, M, H>::begin() {
+typename HashMap<K, M, H>::iterator HashMap<K, M, H>::begin() noexcept {
     size_t index = first_not_empty_bucket();
     if (index == bucket_count()) {
         return end();
@@ -112,7 +123,7 @@ typename HashMap<K, M, H>::iterator HashMap<K, M, H>::begin() {
 }
 
 template <typename K, typename M, typename H>
-typename HashMap<K, M, H>::const_iterator HashMap<K, M, H>::begin() const {
+typename HashMap<K, M, H>::const_iterator HashMap<K, M, H>::begin() const noexcept{
     // This is called the static_cast/const_cast trick, which allows us to reuse
     // the non-const version of find to implement the const version.
     // The idea is to cast this so it's pointing to a non-const HashMap, which
@@ -122,8 +133,13 @@ typename HashMap<K, M, H>::const_iterator HashMap<K, M, H>::begin() const {
 }
 
 template <typename K, typename M, typename H>
-typename HashMap<K, M, H>::iterator HashMap<K, M, H>::end() {
+typename HashMap<K, M, H>::iterator HashMap<K, M, H>::end() noexcept {
     return make_iterator(nullptr);
+}
+
+template <typename K, typename M, typename H>
+typename HashMap<K, M, H>::const_iterator HashMap<K, M, H>::end() const noexcept {
+    return static_cast<const_iterator>(const_cast<HashMap<K, M, H>*>(this)->end());
 }
 
 template <typename K, typename M, typename H>
@@ -186,7 +202,7 @@ template <typename K, typename M, typename H>
 }
 
 template <typename K, typename M, typename H>
-void HashMap<K, M, H>::rehash(size_t new_bucket_count) {
+void HashMap<K, M, H>::rehash(const size_t new_bucket_count) {
 if (new_bucket_count == 0) {
     throw std::out_of_range("HashMap<K, M, H>::rehash: new_bucket_count must be positive.");
 }

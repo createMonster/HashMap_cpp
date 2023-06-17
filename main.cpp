@@ -12,9 +12,9 @@ int student_main();
 //student_main helpers. Remember to change the necessary function signatures here and 
 //where they are implemented for milestone 1!
 void init_map(HashMap<string, int>& map);
-void print_difference(HashMap<string, int>& lecturer_record, string lecturer1, string lecturer2);
+void print_difference(const HashMap<string, int>& lecturer_record, const string lecturer1, const string lecturer2);
 template<typename KeyType, typename MappedTyped>
-std::set<KeyType> find_keys(HashMap<KeyType, MappedTyped>& map);
+std::set<KeyType> find_keys(const HashMap<KeyType, MappedTyped>& map) ;
 
 int main() {
     int answer;
@@ -35,12 +35,16 @@ int student_main() {
     cout << "This is student main. You can try using HashMap as a client by editing the code here!" << endl;
     HashMap<string, int> map;
     init_map(map);
+    
     std::set<string> keys = find_keys(map);
     cout << "Find the difference in time between two lecturers! \n" <<
         "Please enter two names from this list, separated by a space. Then hit ENTER\n" << endl;
+    
+    
     for(auto it = keys.begin(); it != keys.end(); ++it){
         cout << *it << endl;
     }
+    
     string name1;
     string name2;
     cin >> name1;
@@ -66,7 +70,7 @@ void init_map(HashMap<string, int>& map) {
 
 //this will return a set of all the keys in parameter map
 template<typename KeyType, typename MappedTyped>
-std::set<KeyType> find_keys(const HashMap<KeyType, MappedTyped>& map){
+std::set<KeyType> find_keys(const HashMap<KeyType, MappedTyped>& map) {
     std::set<KeyType> res;
     for(auto it = map.begin(); it != map.end(); ++it){
         //Remember structured binding? :)

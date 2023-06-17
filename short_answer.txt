@@ -1,2 +1,27 @@
 Assignment 3: STL HashMap (short answer questions)
 Names:
+1. at() vs []
+Q: Explain the difference between at() and the implementation of the operator []. Wy did you have to overload one and not the other?
+Hint: You will likely only need to read the header comments to do this
+
+A: The [] operator does not throw exceptions. Instead, when the key does not exist, it will generate a default K/M pair for that key with a default mapped value.
+
+
+2. Find vs. 𝓕𝓲𝓷𝓭
+Q: In addition to the HashMap::find member function, there is also a std::find function in the STL algorithms library. If you were searching for key k in HashMap m, is it preferable to call m.find(k) or std::find(m.begin(), m.end(), k)?
+Hint: on average, there are a constant number of elements per bucket. Also, one of these functions has a faster Big-O complexity because one of them uses a loop while another does something smarter.
+
+A: Use m.find() because it has the time complexity of O(1) by using hash.
+
+
+3. RAII?
+Q: This HashMap class is RAII-compliant. Explain why.
+
+A: Because the deconstructor will call clear() to free all resources.
+
+
+4. Increments
+Q: Briefly explain the implementation of HashMapIterator's operator++, which we provide for you. How does it work and what checks does it have?
+
+A: For the prefix increment, it will check if the next node is nullptr, if so, we will return the next bucket with value. Otherwise, the next node is returned. 
+For the postfix increment, we will copy the current node value first, then increment the node, return the copied value.

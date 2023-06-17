@@ -144,7 +144,7 @@ public:
     *
     * Complexity: O(1) (inlined because function is short)
     */
-    inline size_t size();
+    inline size_t size() const;
 
     /*
     * Returns whether the HashMap is empty.
@@ -157,7 +157,7 @@ public:
     *
     * Complexity: O(1) (inlined because function is short)
     */
-    inline bool empty();
+    inline bool empty() const;
 
     /*
     * Returns the load_factor, defined as size/bucket_count.
@@ -173,7 +173,7 @@ public:
     * Notes: our minimal implementation does not automatically rehash when the load
     * factor is too high. If you want as an extension, you can implement automatic rehashing.
     */
-    inline float load_factor();
+    inline float load_factor() const;
 
     /*
     * Returns the number of buckets.
@@ -212,7 +212,7 @@ public:
     * Since contains feels more natural to students who've used the Stanford libraries
     * and will be available in the future, we will implement map.contains(key).
     */
-    bool contains(const K& key);
+    bool contains(const K& key) const;
 
     /*
     * Returns a l-value reference to the mapped value given a key.
@@ -234,6 +234,7 @@ public:
     * mapped value. This function is also not const-correct, which you will fix in milestone 2.
     */
     M& at(const K& key);
+    const M& at(const K& key) const;
 
     /*
     * Removes all K/M pairs the HashMap.
@@ -267,6 +268,7 @@ public:
      * Complexity: O(1) amortized average case, O(N) worst case, N = number of elements
      */
     iterator find(const K& key);
+    const_iterator find(const K& key) const;
 
     /*
     * Inserts the K/M pair into the HashMap, if the key does not already exist.
@@ -348,7 +350,7 @@ public:
     * linked list problem, and students had a difficult time finding an elegant solution.
     * Instead, we will ask short answer questions on this function instead.
     */
-    void rehash(size_t new_buckets);
+    void rehash(const size_t new_buckets);
 
     /*
      * Returns an iterator to the first element.
@@ -357,7 +359,7 @@ public:
      * Usage:
      *      auto iter = map.begin();
      */
-    iterator begin();
+    iterator begin() noexcept;
 
     /*
      * Returns a const_iterator to the first element.
@@ -366,7 +368,7 @@ public:
      * Usage:
      *      auto iter = cmap.begin();
      */    
-    const_iterator begin() const;
+    const_iterator begin() const noexcept;
 
     /*
      * Returns an iterator to one past the last element.
@@ -375,7 +377,8 @@ public:
      * Usage:
      *      while (iter != map.end()) {...}
      */
-    iterator end();
+    iterator end() noexcept;
+    const_iterator end() const noexcept;
 
 
     /*
